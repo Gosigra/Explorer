@@ -1,0 +1,73 @@
+﻿<Window x:Class="FileExplorer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileExplorer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="840"
+        PreviewMouseDown="Window_PreviewMouseDown">
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" MinWidth="50"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <GridSplitter Grid.Column="1" ShowsPreview="False" Width="4" Margin="0 50 0 0"
+                      HorizontalAlignment="Left" VerticalAlignment="Stretch">
+        </GridSplitter>
+
+        <Rectangle Grid.Column="1"/>
+
+        <Button x:Name="backButton" Content="&lt;--" Click="backButtonClick" IsEnabled="False" Height="20"  Width="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,30,0,0"/>
+
+
+
+        <TreeView x:Name="TreeView1" Margin="0,50,0,0" ItemsSource="{Binding MyRootFolders}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="0" BorderThickness="0">
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItemClick"/>
+                    <EventSetter Event="Expanded" Handler="TreeViewItem_Expanded"/>
+
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+
+        <ListBox Grid.Column="2" x:Name="ListBox1" Margin="0,50,0,0">
+
+            <ListBox.Resources>
+                <ContextMenu x:Key="MyElementMenu">
+                    <MenuItem x:Name="IIns" Header="Вставить" Click="Insert_Click" IsEnabled = "True"/>
+                    <MenuItem Header="Копировать" Click="Copy_Click"/>
+                    <MenuItem Header="Удалить" Click="Delete_Click"/>
+                </ContextMenu>
+
+            </ListBox.Resources>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItemDoubleClick" />
+
+                    <Setter Property="ContextMenu" Value="{StaticResource MyElementMenu}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ContextMenu>
+                <ContextMenu x:Name="menu">
+                    <MenuItem x:Name="LIns" Header="Вставить" Click="Insert_Click" IsEnabled="True"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+
+        </ListBox>
+
+        <TextBox x:Name="searchBar"  Margin="100,20,250,0" VerticalAlignment="Top" Grid.Column="0" Grid.ColumnSpan="3" Height="25" Focusable="True"/>
+        <Button x:Name="searchButton" Click="searchButtonClick" Grid.Column="2" Content="🔎" Margin="0,20,225,0" VerticalAlignment="Top" Height="25" Width="25" HorizontalAlignment="Right"/>
+        <CheckBox x:Name ="checkBox" Grid.Column="2" Content="скрытые папки" Margin="0,20,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" IsChecked="True" Click="searchButton_Changed" />
+
+    </Grid>
+
+
+</Window>
+
